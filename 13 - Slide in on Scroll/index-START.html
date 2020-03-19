@@ -164,11 +164,26 @@
     const sliderImages = document.querySelectorAll('.slide-in');
 
 
-    function chceckSlide(e) {
-      console.log(e);
+    function checkSlide() {
+      sliderImages.forEach(sliderImage => {
+        // half way through the image
+        const slideInAt = (window.scrollY + window.innerHeight) - sliderImage.height / 2;
+        console.log(slideInAt);
+        // bottom of the image
+        const imageBottom = sliderImage.offsetTop + sliderImage.height;
+        console.log(imageBottom);
+        const isHalfShown = slideInAt > sliderImage.offsetTop;
+        console.log(isHalfShown);
+        const isNotScrolledPast = window.scrollY < imageBottom;
+        if (isHalfShown && isNotScrolledPast) {
+          sliderImage.classList.add('active');
+        } else {
+          sliderImage.classList.remove('active');
+        }
+      });
     }
 
-    window.addEventListener('scroll', chceckSlide);
+    window.addEventListener('scroll', debounce(checkSlide));
 
 
 
